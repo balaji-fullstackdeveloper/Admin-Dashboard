@@ -9,8 +9,9 @@ import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 import managementRoutes from "./routes/management.js";
 import salesRoutes from "./routes/sales.js";
+
 //CONFIGURATION
-dotenv.config();
+dotenv.config({ path: "config.env" });
 const app = express();
 app.use(express.json());
 app.use(helmet());
@@ -28,10 +29,7 @@ app.use("/sales", salesRoutes);
 //MONDODB CONNECTION
 const PORT = process.env.PORT || 9000;
 mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to MongoDB");
   })
