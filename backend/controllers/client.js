@@ -2,6 +2,7 @@ import Product from "../models/Product.js";
 import ProductStat from "../models/ProductStat.js";
 import User from "../models/User.js";
 import Transaction from "../models/Transaction.js";
+import getCountryISO3 from "country-iso-2-to-3";
 export const getProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -89,9 +90,6 @@ export const getTransactions = async (req, res) => {
       .skip(page * pageSize)
       .limit(pageSize);
 
-    // const total = await Transaction.countDocuments({
-    //   name: { $regex: search, $options: "i" },
-    // });
     const total = await Transaction.find({
       $or: [
         { cost: { $regex: new RegExp(search, "i") } },
@@ -103,6 +101,30 @@ export const getTransactions = async (req, res) => {
       transactions,
       total,
     });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+export const getGeography = async (req, res) => {
+  try {
+    const users = await User.find();
+    const mappedLocations = users.reduce((acc, { country }) => {
+      const countryISO3 = getCountryISO3(country);
+      console.log(countryISO3);
+      if (!acc[countryISO3]) {
+        acc[countryISO3] = 0;
+      }
+      acc[countryISO3]++;
+      return acc;
+    }, {});
+
+    const formattedLocations = [];
+
+    for (const [key, value] of Object.entries(mappedLocations)) {
+      formattedLocations.push({ id: key, value });
+    }
+
+    res.status(200).json(formattedLocations);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
