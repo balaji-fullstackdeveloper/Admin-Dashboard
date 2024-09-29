@@ -61,4 +61,5 @@ export const {
   useGetTransactionsQuery,
   useGetGeographyQuery,
   useGetSalesQuery,
+  useGetAdminsQuery,
 } = api;
