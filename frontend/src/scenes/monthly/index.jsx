@@ -1,21 +1,17 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Box, useTheme } from "@mui/material";
 import Header from "../../components/Header";
 import { useGetSalesQuery } from "../../state/api";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ResponsiveLine } from "@nivo/line";
 function Daily() {
-  const [view, setView] = useState("units");
-  const [startDate, setStartDate] = useState(new Date("2024-02-01"));
-  const [endDate, setEndDate] = useState(new Date("2024-03-01"));
   const { data, isLoading } = useGetSalesQuery();
   const theme = useTheme();
 
   const [formattedData] = useMemo(() => {
     if (!data) return [];
 
-    const { dailyData } = data;
+    const { monthlyData } = data;
     const totalSalesLine = {
       id: "totalSales",
       color: theme.palette.secondary.main,
@@ -27,53 +23,25 @@ function Daily() {
       data: [],
     };
 
-    Object.values(dailyData).forEach(({ date, totalSales, totalUnits }) => {
-      const dateFormatted = new Date(date);
-      if (dateFormatted >= startDate && dateFormatted <= endDate) {
-        const splitDate = date.substring(date.indexOf("-") + 1);
-
-        totalSalesLine.data = [
-          ...totalSalesLine.data,
-          { x: splitDate, y: totalSales },
-        ];
-        totalUnitsLine.data = [
-          ...totalUnitsLine.data,
-          { x: splitDate, y: totalUnits },
-        ];
-      }
+    Object.values(monthlyData).forEach(({ month, totalSales, totalUnits }) => {
+      totalSalesLine.data = [
+        ...totalSalesLine.data,
+        { x: month, y: totalSales },
+      ];
+      totalUnitsLine.data = [
+        ...totalUnitsLine.data,
+        { x: month, y: totalUnits },
+      ];
     });
     const formattedData = [totalSalesLine, totalUnitsLine];
     console.log(formattedData);
     return [formattedData];
-  }, [data, startDate, endDate]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!data || isLoading) return "Loading...";
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="DAILY SALES" subtitle="Chart of daily sales" />
+      <Header title="MONTHLY SALES" subtitle="Chart of monthly sales" />
       <Box height="75vh">
-        <Box display="flex" justifyContent="flex-end">
-          {" "}
-          <Box>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-            />
-          </Box>
-          <Box ml="0.5rem">
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-            />
-          </Box>
-        </Box>
-
         <ResponsiveLine
           data={formattedData}
           theme={{
