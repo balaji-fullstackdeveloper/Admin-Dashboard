@@ -7,10 +7,12 @@ import {
   dataProductStat,
   dataUser,
   dataTransaction,
+  dataOverallStat,
 } from "./data/index.js";
 import Product from "./models/Product.js";
 import ProductStat from "./models/ProductStat.js";
 import Transaction from "./models/Transaction.js";
+import OverallStat from "./models/OverallStat.js";
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => console.log("Connected to MongoDB"));
@@ -28,10 +30,14 @@ const seedData = async () => {
     // console.log("Product deleted!");
     // await ProductStat.insertMany(dataProductStat);
     // console.log("All Product added!");
-    await Transaction.deleteMany();
-    console.log("Transaction deleted!");
-    await Transaction.insertMany(dataTransaction);
-    console.log("All Transaction added!");
+    // await Transaction.deleteMany();
+    // console.log("Transaction deleted!");
+    // await Transaction.insertMany(dataTransaction);
+    // console.log("All Transaction added!");
+    await OverallStat.deleteMany();
+    console.log("OverAllStat deleted!");
+    await OverallStat.insertMany(dataOverallStat);
+    console.log("All OverAllStat added!");
   } catch (error) {
     console.log(error);
   }
