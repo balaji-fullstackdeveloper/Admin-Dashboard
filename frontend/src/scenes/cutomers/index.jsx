@@ -3,9 +3,32 @@ import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "../../components/Header";
 import { useGetCustomersQuery } from "../../state/api";
+import { Audio } from "react-loader-spinner";
 function Customers() {
   const theme = useTheme();
   const { data, isLoading } = useGetCustomersQuery();
+
+  if (isLoading) {
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
+  }
   const columns = [
     {
       field: "_id",

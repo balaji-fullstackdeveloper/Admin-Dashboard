@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, useTheme } from "@mui/material";
 import { useGetAdminsQuery } from "../../state/api.js";
-
+import { Audio } from "react-loader-spinner";
 import {
   GridColumnMenu,
   GridColumnMenuContainer,
@@ -41,6 +41,27 @@ function CustomColumnMenuComponent(props) {
 function Admin() {
   const theme = useTheme();
   const { data, isLoading } = useGetAdminsQuery();
+  if (isLoading) {
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
+  }
   const columns = [
     {
       field: "_id",

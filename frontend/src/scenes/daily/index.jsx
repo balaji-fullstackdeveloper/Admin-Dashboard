@@ -1,12 +1,13 @@
 import React, { useMemo, useState } from "react";
 import { Box, useTheme } from "@mui/material";
 import Header from "../../components/Header";
+import { Audio } from "react-loader-spinner";
 import { useGetSalesQuery } from "../../state/api";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ResponsiveLine } from "@nivo/line";
+
 function Daily() {
-  const [view, setView] = useState("units");
   const [startDate, setStartDate] = useState(new Date("2024-02-01"));
   const [endDate, setEndDate] = useState(new Date("2024-03-01"));
   const { data, isLoading } = useGetSalesQuery();
@@ -43,10 +44,29 @@ function Daily() {
       }
     });
     const formattedData = [totalSalesLine, totalUnitsLine];
-    console.log(formattedData);
+
     return [formattedData];
   }, [data, startDate, endDate]); // eslint-disable-line react-hooks/exhaustive-deps
-  if (!data || isLoading) return "Loading...";
+  if (!data || isLoading)
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="DAILY SALES" subtitle="Chart of daily sales" />

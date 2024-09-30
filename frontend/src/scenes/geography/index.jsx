@@ -4,10 +4,31 @@ import { useGetGeographyQuery } from "../../state/api";
 import Header from "../../components/Header";
 import { ResponsiveChoropleth } from "@nivo/geo";
 import geoData from "../../state/geodata.js";
+import { Audio } from "react-loader-spinner";
 function Geography() {
   const theme = useTheme();
-  const { data } = useGetGeographyQuery();
-
+  const { data, isLoading } = useGetGeographyQuery();
+  if (isLoading) {
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
+  }
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="GEOGRAPHY" subtitle="Find where your users are located." />

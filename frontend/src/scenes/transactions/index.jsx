@@ -12,6 +12,7 @@ import {
   GridToolbarColumnsButton,
 } from "@mui/x-data-grid";
 import FlexBetween from "../../components/FlexBetween.jsx";
+import { Audio } from "react-loader-spinner";
 function Transactions() {
   const theme = useTheme();
 
@@ -29,7 +30,27 @@ function Transactions() {
     sort: JSON.stringify(sort),
     search,
   });
-
+  if (isLoading) {
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
+  }
   const columns = [
     {
       field: "_id",

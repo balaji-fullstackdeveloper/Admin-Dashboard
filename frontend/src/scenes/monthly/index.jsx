@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 import { useGetSalesQuery } from "../../state/api";
 import "react-datepicker/dist/react-datepicker.css";
 import { ResponsiveLine } from "@nivo/line";
+import { Audio } from "react-loader-spinner";
 function Daily() {
   const { data, isLoading } = useGetSalesQuery();
   const theme = useTheme();
@@ -37,7 +38,27 @@ function Daily() {
     console.log(formattedData);
     return [formattedData];
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
-  if (!data || isLoading) return "Loading...";
+  if (!data || isLoading) {
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
+  }
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="MONTHLY SALES" subtitle="Chart of monthly sales" />

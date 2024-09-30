@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import Header from "../../components/Header";
 import { useGetProductsQuery } from "../../state/api.js";
-
+import { Audio } from "react-loader-spinner";
 const Product = ({
   _id,
   name,
@@ -87,8 +87,29 @@ const Product = ({
 
 const Products = () => {
   const { data, isLoading } = useGetProductsQuery();
-  const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
+  const isNonMobile = useMediaQuery("(min-width: 1000px)");
+  if (isLoading) {
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
+  }
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="PRODUCTS" subtitle="See your list of products." />

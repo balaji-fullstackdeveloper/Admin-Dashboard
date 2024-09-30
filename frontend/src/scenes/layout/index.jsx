@@ -5,13 +5,33 @@ import { useSelector } from "react-redux";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 import { useGetUserQuery } from "../../state/api.js";
-
+import { Audio } from "react-loader-spinner";
 function Layout() {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const userId = useSelector((state) => state.global.userId);
-  const { data } = useGetUserQuery(userId);
-
+  const { data, isLoading } = useGetUserQuery(userId);
+  if (isLoading) {
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
+  }
   return (
     <div>
       <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">

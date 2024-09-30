@@ -20,11 +20,32 @@ import OverviewChart from "../../components/OverviewChart";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetDashboardQuery } from "../../state/api.js";
 import StatBox from "../../components/StatBox";
+import { Audio } from "react-loader-spinner";
 function Dashboard() {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const { data, isLoading } = useGetDashboardQuery();
-  console.log(data);
+  if (isLoading) {
+    return (
+      <Box
+        width="100%"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Audio
+          height="100"
+          width="100"
+          radius="12"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </Box>
+    );
+  }
   const columns = [
     {
       field: "_id",
