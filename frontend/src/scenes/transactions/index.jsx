@@ -12,13 +12,9 @@ import {
   GridToolbarColumnsButton,
 } from "@mui/x-data-grid";
 import FlexBetween from "../../components/FlexBetween.jsx";
-// import DataGridCustomToolbar from "../../components/DataGridCustomToolBar.jsx";
-
 function Transactions() {
   const theme = useTheme();
-  // values to be sent to the backend
-  //   const [page, setPage] = useState(0);
-  //   const [pageSize, setPageSize] = useState(20);
+
   const [paginationModel, setPaginationModel] = React.useState({
     page: 0,
     pageSize: 50,
@@ -33,7 +29,7 @@ function Transactions() {
     sort: JSON.stringify(sort),
     search,
   });
-  console.log(paginationModel);
+
   const columns = [
     {
       field: "_id",
