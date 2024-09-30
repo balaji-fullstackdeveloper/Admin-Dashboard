@@ -110,7 +110,7 @@ export const getGeography = async (req, res) => {
     const users = await User.find();
     const mappedLocations = users.reduce((acc, { country }) => {
       const countryISO3 = getCountryISO3(country);
-      console.log(countryISO3);
+
       if (!acc[countryISO3]) {
         acc[countryISO3] = 0;
       }

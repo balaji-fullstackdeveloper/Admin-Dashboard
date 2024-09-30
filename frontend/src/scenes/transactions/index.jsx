@@ -78,6 +78,7 @@ function Transactions() {
       field: "cost",
       headerName: "Cost",
       flex: 1,
+
       renderCell: (params) =>
         `$${params.value ? Number(params.value).toFixed(2) : "0.00"}`,
     },
@@ -154,8 +155,6 @@ function Transactions() {
           sortingMode="server"
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
-          onPageChange={(newPage) => console.log(newPage)}
-          onPageSizeChange={(newPageSize) => console.log(newPageSize)}
           onSortModelChange={(newSortModel) => setSort(...newSortModel)}
           slots={{
             toolbar: DataGridCustomToolBar,

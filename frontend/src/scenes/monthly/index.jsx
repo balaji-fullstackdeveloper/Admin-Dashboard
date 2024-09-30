@@ -35,7 +35,7 @@ function Daily() {
       ];
     });
     const formattedData = [totalSalesLine, totalUnitsLine];
-    console.log(formattedData);
+
     return [formattedData];
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!data || isLoading) {
